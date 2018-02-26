@@ -40,8 +40,8 @@ def svm_test(gamma,c):
 def load_file(file_name,user_name):
 	df = pd.read_csv(file_name)
 	global deltaup,deltadown,point_temp,names
-	global x_min, x_max
-	global y_min, y_max
+	global x_min,x_max
+	global y_min,y_max
 	deltaup = df.deltaup
 	deltadown = df.deltadown
 	x_min, x_max = min(deltaup) - .1, max(deltaup) + .1
@@ -57,13 +57,10 @@ def load_file(file_name,user_name):
 
 def load_file_higher_dim(file_name,user_name):
 	df = pd.read_csv(file_name)
-	global deltaup
-	global deltadown
-	global point_temp
-	global downtime, uptime, index
-	global names
-	global x_min, x_max
-	global y_min, y_max
+	global deltaup,deltadown,point_temp
+	global downtime,uptime,index,names
+	global x_min,x_max
+	global y_min,y_max
 	deltaup = df.deltaup
 	deltadown = df.deltadown
 	downtime = df.downtime
@@ -82,10 +79,7 @@ def load_file_higher_dim(file_name,user_name):
 
 def load_file_test(file_name,user_name):
 	qf = pd.read_csv(file_name)
-	global deltaup_test
-	global deltadown_test
-	global point_temp_test
-	global names_test
+	global deltaup_test,deltadown_test,point_temp_test,names_test
 	deltaup_test = qf.deltaup
 	deltadown_test = qf.deltadown
 	names_test = qf.user
@@ -96,10 +90,11 @@ def load_file_test(file_name,user_name):
 			y_test.append(1)
 		else:
 			y_test.append(0)
+
 def load_file_test_higher_dim(file_name,user_name):
 	qf = pd.read_csv(file_name)
-	global deltaup_test, deltadown_test, point_temp_test,names_test
-	global downtime_test, uptime_test, index_test
+	global deltaup_test,deltadown_test,point_temp_test,names_test
+	global downtime_test,uptime_test,index_test
 	deltaup_test = qf.deltaup
 	deltadown_test = qf.deltadown
 	names_test = qf.user
@@ -141,10 +136,14 @@ def train_data():
 	svm_test(gamma, c)
 	print accuracy_score(y_test, clf.predict(point_temp_test))
 
+def best_train_data():
+	gamma = 9
+	c = 47
+	svm_test(gamma, c)
+	print accuracy_score(y_test, clf.predict(point_temp_test))
+
 load_file_test_higher_dim("./Data/Test.csv","kole")
 load_file_higher_dim("./Data/Training.csv","kole")
 
-gamma = 9
-c = 47
-svm_test(gamma, c)
-print accuracy_score(y_test, clf.predict(point_temp_test))
+train_data()
+best_train_data()

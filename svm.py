@@ -19,6 +19,11 @@ y,y_test=[],[]
 x_min, x_max = 0,0
 y_min, y_max = 0,0
 
+def save_clf():
+	global clf
+	with open('svm.pkl', 'wb') as output:
+		pickle.dump(clf, output, pickle.HIGHEST_PROTOCOL)
+
 def network_test(x,w):
 	global clf
 	X = np.array(point_temp)
@@ -145,5 +150,5 @@ def best_train_data():
 load_file_test_higher_dim("./Data/Test.csv","kole")
 load_file_higher_dim("./Data/Training.csv","kole")
 
-train_data()
 best_train_data()
+save_clf()

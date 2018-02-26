@@ -2,7 +2,7 @@
 
 import pandas as pd
 import numpy as np
-import pickle
+import cPickle as pickle
 from sklearn import neighbors, datasets
 from sklearn import svm
 from sklearn.neural_network import MLPClassifier
@@ -71,8 +71,6 @@ def load_file_higher_dim(file_name,user_name):
 	downtime = df.downtime
 	uptime = df.uptime
 	index = df.char_index
-	x_min, x_max = min(deltaup) - .1, max(deltaup) + .1
-	y_min, y_max = min(deltadown) - .1, max(deltadown) + .1
 	names = df.user
 
 	for i in range(len(deltaup)):

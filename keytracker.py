@@ -4,12 +4,9 @@ from pynput import keyboard
 import time
 import sys
 import csv
-from sklearn.neighbors import NearestNeighbors
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from sklearn import neighbors, datasets
-
+from sklearn import svm
+import cPickle as pickle
 
 buff = ''
 downbuff = []
@@ -25,6 +22,15 @@ timeupbuff = []
 user = 'kole'
 k = 2
 h = .02
+point_temp = []
+index = []
+count = 0
+
+def load_svm():
+	global clf
+	with open('svm.pkl', 'rb') as input:
+		clf = pickle.load(input)	
+	
 
 def save_output():
 	i = 0;
@@ -72,7 +78,11 @@ def on_key_release(key):
 	global deltadown
 	global deltaup
 	global timeupbuff
-
+	global point_temp
+	global index
+	global clf
+	
+	
 	key = str(key).replace('u\'','',1).replace('\'','')
 	if str(key) != 'Key.enter':
 		upbuff.append(time.time())
@@ -80,7 +90,19 @@ def on_key_release(key):
 		timeupbuff.append(time.time() - start)
 	if buff == password:
 		calculate_delta()
-		save_output()
+		load_svm()
+		for i in range(len(deltaup)):
+			point_temp.append([deltaup[i],deltadown[i],index[i]])
+		h = clf.predict(point_temp)
+		positive = 0
+		for x in h:
+			positive += x
+		percent_user = float(positive)/float(len(h))
+		if percent_user > .50:	
+			print("Welcome User")
+		else:
+			print("Your not the user")
+#		save_output()
 #		print 'deltadown:'
 #		print ''.join(str(deltadown))
 #		print 'deltaup'
@@ -101,6 +123,7 @@ def on_key_press(key):
 	global start
 	global first
 	global timedownbuff
+	global count
 
 	key = str(key).replace('u\'','',1).replace('\'','')
 	if(key == "Key.esc"):
@@ -118,7 +141,8 @@ def on_key_press(key):
 	else:
 		timedownbuff.append(time.time() - start)
 	downbuff.append(time.time())
-
+	index.append(count)
+	count += 1
 	#buff += key
 
 

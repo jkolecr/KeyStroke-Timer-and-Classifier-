@@ -21,7 +21,7 @@ y_min, y_max = 0,0
 
 def save_clf():
 	global clf
-	with open('svm.pkl', 'wb') as output:
+	with open('svm_vince.pkl', 'wb') as output:
 		pickle.dump(clf, output, pickle.HIGHEST_PROTOCOL)
 
 def network_test(x,w):
@@ -145,8 +145,8 @@ def best_train_data():
 	svm_test(gamma, c)
 	print accuracy_score(y_test, clf.predict(point_temp_test))
 
-load_file_test_higher_dim("./Data/Test.csv","kole")
-load_file_higher_dim("./Data/Training.csv","kole")
+load_file_test_higher_dim("./Data/Test.csv","vince")
+load_file_higher_dim("./Data/Training.csv","vince")
 
-best_train_data()
+train_data()
 save_clf()

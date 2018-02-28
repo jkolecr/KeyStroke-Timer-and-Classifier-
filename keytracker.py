@@ -28,7 +28,7 @@ count = 0
 
 def load_svm():
 	global clf
-	with open('svm.pkl', 'rb') as input:
+	with open('svm_vince.pkl', 'rb') as input:
 		clf = pickle.load(input)	
 	
 
@@ -100,8 +100,10 @@ def on_key_release(key):
 		percent_user = float(positive)/float(len(h))
 		if percent_user > .50:	
 			print("Welcome User")
+			print("You are " + str(percent_user) + "% the user")
 		else:
 			print("Your not the user")
+			print("You are " + str(percent_user) + "% the user")
 #		save_output()
 #		print 'deltadown:'
 #		print ''.join(str(deltadown))
